@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PatientServiceImp implements patientService{
+public class PatientServiceImp implements PatientService {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
 
@@ -32,8 +32,9 @@ public class PatientServiceImp implements patientService{
 
         PatientEntity patient = patientMapper.toEntity(request);
 
+        PatientEntity created = patientRepository.save(patient);
 
-        return patientMapper.toDetailResponse(patient);
+        return patientMapper.toDetailResponse(created);
     }
 
     @Override
@@ -59,8 +60,9 @@ public class PatientServiceImp implements patientService{
             throw new IllegalArgumentException("El Email " + request.email() + " ya pertenece a otro paciente.");
 
         patientMapper.updateEntityFromDto(request, patient);
+        PatientEntity updatedPatient = patientRepository.save(patient);
 
-        return patientMapper.toDetailResponse(patient);
+        return patientMapper.toDetailResponse(updatedPatient);
     }
 
     @Override

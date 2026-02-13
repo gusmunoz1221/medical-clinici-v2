@@ -1,0 +1,17 @@
+services:
+  clinic-db:
+    container_name: clinic_db_container
+    image: postgres:16
+    restart: always
+    volumes:
+      - ./db/sql/02_create_schema.sql:/docker-entrypoint-initdb.d/01_create_schema.sql
+      - ./db/sql/03_data.sql:/docker-entrypoint-initdb.d/02_data.sql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+volumes:
+  postgres_data:

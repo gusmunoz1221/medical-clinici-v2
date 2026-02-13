@@ -6,7 +6,7 @@ import com.clinica.patient.dto.PatientRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface patientService {
+public interface PatientService {
 
     PatientDetailResponse createPatient(PatientRequest request);
 

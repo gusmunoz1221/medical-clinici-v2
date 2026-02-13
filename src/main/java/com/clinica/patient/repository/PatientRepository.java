@@ -41,7 +41,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity,Long> {
 
     @Query(
             value = "SELECT * FROM patients WHERE is_deleted = true",
-            countQuery = "SELECT count(*) FROM patients WHERE is_deleted = true", // Necesario para Page
+            countQuery = "SELECT count(*) FROM patients WHERE is_deleted = true",
             nativeQuery = true
     )
     Page<PatientEntity> findAllDeleted(Pageable pageable);

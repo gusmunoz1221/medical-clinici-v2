@@ -13,17 +13,17 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
 
     Optional<PersonEntity> findByEmail(String email);
 
-    Optional<PersonEntity> findByDocumentNumber(String documentNumber);
+    Optional<PersonEntity> findByDni(String dni);
 
     boolean existsByEmail(String email);
 
-    boolean existsByDocumentNumber(String documentNumber);
+    boolean existsByDni(String dni);
 
     @Query("""
         SELECT p FROM PersonEntity p
         WHERE LOWER(p.firstName) LIKE LOWER(CONCAT('%', :filter, '%'))
            OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :filter, '%'))
-           OR p.documentNumber LIKE CONCAT('%', :filter, '%')
+           OR p.dni LIKE CONCAT('%', :filter, '%')
            OR LOWER(p.email) LIKE LOWER(CONCAT('%', :filter, '%'))
     """)
     Page<PersonEntity> search(@Param("filter") String filter, Pageable pageable);

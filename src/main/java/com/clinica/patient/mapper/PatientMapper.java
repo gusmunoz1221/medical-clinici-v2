@@ -23,13 +23,13 @@ public class PatientMapper {
                 .healthInsuranceCode(dto.healthInsuranceCode())
                 .bloodType(dto.bloodType())
                 .allergies(dto.allergies())
-                .personEntity(person)
+                .person(person)
                 .build();
     }
 
     public PatientListResponse toListResponse(PatientEntity entity) {
         if (entity == null) return null;
-        PersonEntity person = entity.getPersonEntity();
+        PersonEntity person = entity.getPerson();
 
         return PatientListResponse.builder()
                 .id(entity.getId())
@@ -42,7 +42,7 @@ public class PatientMapper {
 
     public PatientDetailResponse toDetailResponse(PatientEntity entity) {
         if (entity == null) return null;
-        PersonEntity person = entity.getPersonEntity();
+        PersonEntity person = entity.getPerson();
 
         return PatientDetailResponse.builder()
                 .id(entity.getId())
@@ -60,7 +60,7 @@ public class PatientMapper {
 
     public void updateEntityFromDto(PatientRequest request, PatientEntity patient) {
         if (request == null || patient == null) return;
-        PersonEntity person = patient.getPersonEntity();
+        PersonEntity person = patient.getPerson();
 
         person.setFirstName(request.firstName());
         person.setLastName(request.lastName());

@@ -16,7 +16,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity,Long> {
     Optional<PatientEntity> findByPersonEmail(String email);
 
     @EntityGraph(attributePaths = {"person"})
-    Optional<PatientEntity> findByPersonDocumentNumber(String documentNumber);
+    Optional<PatientEntity> findByPersonDni(String dni);
 
     @EntityGraph(attributePaths = {"person"})
     Page<PatientEntity> findByPersonLastNameContainingIgnoreCase(String lastName, Pageable pageable);
@@ -26,7 +26,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity,Long> {
 
     // --- VALIDACIONES ---
     boolean existsByPersonEmail(String email);
-    boolean existsByPersonDocumentNumber(String documentNumber);
+    boolean existsByPersonDni(String Dni);
 
     // --- OPTIMIZACIONES ---
     // EntityGraph reemplaza al JOIN FETCH manual

@@ -23,35 +23,35 @@ public class DoctorServiceImp implements DoctorService{
     private final DoctorMapper doctorMapper;
 
     @Override
-    public Page<DoctorPublicResponse> getAllPublic(Pageable pageable) {
+    public Page<DoctorPublicResponse> getAllPublicDoctors(Pageable pageable) {
         return doctorRepository.findAll(pageable)
                 .map(doctorMapper::toPublicResponse);
     }
 
     @Override
-    public DoctorPublicResponse getByIdPublic(Long id) {
+    public DoctorPublicResponse getByIdPublicDoctor(Long id) {
         return doctorRepository.findById(id)
                 .map(doctorMapper::toPublicResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Doctor no encontrado con ID: " + id));
     }
 
     @Override
-    public Page<DoctorAdminResponse> getAllAdmin(Pageable pageable) {
+    public Page<DoctorAdminResponse> getAllAdminDoctors(Pageable pageable) {
         return doctorRepository.findAll(pageable)
                 .map(doctorMapper::toAdminResponse);
     }
 
     @Override
-    public DoctorAdminResponse getByIdAdmin(Long id) {
+    public DoctorAdminResponse getByIdAdminDoctor(Long id) {
         return doctorRepository.findById(id)
                 .map(doctorMapper::toAdminResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Doctor no encontrado con ID: " + id));
     }
 
     @Override
-    public Page<DoctorAdminResponse> searchAdmin(String filter, Pageable pageable) {
+    public Page<DoctorAdminResponse> searchAdminDoctors(String filter, Pageable pageable) {
         if (filter == null || filter.isBlank())
-            return getAllAdmin(pageable);
+            return getAllAdminDoctors(pageable);
 
         return doctorRepository.search(filter, pageable)
                 .map(doctorMapper::toAdminResponse);
@@ -59,11 +59,11 @@ public class DoctorServiceImp implements DoctorService{
 
     @Override
     @Transactional
-    public DoctorAdminResponse create(DoctorRequest request) {
+    public DoctorAdminResponse createDoctor(DoctorRequest request) {
         if (personRepository.existsByEmail(request.person().email()))
             throw new IllegalArgumentException("El email ya está registrado en el sistema");
 
-        if (personRepository.existsByDocumentNumber(request.person().dni()))
+        if (personRepository.existsByDni(request.person().dni()))
             throw new IllegalArgumentException("El DNI ya está registrado");
 
         DoctorEntity entity = doctorMapper.toEntity(request);
@@ -74,7 +74,7 @@ public class DoctorServiceImp implements DoctorService{
 
     @Override
     @Transactional
-    public DoctorAdminResponse update(Long id, DoctorRequest request) {
+    public DoctorAdminResponse updateDoctor(Long id, DoctorRequest request) {
         DoctorEntity entity = doctorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Doctor no encontrado"));
 
@@ -87,7 +87,7 @@ public class DoctorServiceImp implements DoctorService{
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void deleteDoctor(Long id) {
         if (!doctorRepository.existsById(id))
             throw new EntityNotFoundException("Doctor no encontrado para eliminar");
 
@@ -95,14 +95,14 @@ public class DoctorServiceImp implements DoctorService{
     }
 
     @Override
-    public Page<DoctorAdminResponse> getAllDeleted(Pageable pageable) {
+    public Page<DoctorAdminResponse> getAllDeletedDoctor(Pageable pageable) {
         return doctorRepository.findAllDeleted(pageable)
                 .map(doctorMapper::toAdminResponse);
     }
 
     @Override
     @Transactional
-    public void restore(Long id) {
+    public void restoreDoctor(Long id) {
         doctorRepository.restoreDoctor(id);
     }
 }

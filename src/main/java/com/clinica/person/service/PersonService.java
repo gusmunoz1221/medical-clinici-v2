@@ -6,25 +6,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PersonService {
-    PersonDtoResponse create(PersonDtoRequest request);
+    PersonDtoResponse createPerson(PersonDtoRequest request);
 
-    PersonDtoResponse getById(Long id);
+    PersonDtoResponse getPersonById(Long id);
 
-    PersonDtoResponse update(Long id, PersonDtoRequest request);
+    PersonDtoResponse updatePerson(Long id, PersonDtoRequest request);
 
-    void delete(Long id);
+    void deletePerson(Long id);
 
     // --- BÚSQUEDAS ---
     Page<PersonDtoResponse> getAll(Pageable pageable);
 
-    Page<PersonDtoResponse> search(String filter, Pageable pageable);
+    Page<PersonDtoResponse> searchPerson(String filter, Pageable pageable);
 
-    PersonDtoResponse getByDni(String dni);
+    PersonDtoResponse getPersonByDni(String dni);
 
-    PersonDtoResponse getByEmail(String email);
+    PersonDtoResponse getPersonByEmail(String email);
 
     // --- PAPELERA ---
     Page<PersonDtoResponse> getAllDeleted(Pageable pageable);
 
-    void restore(Long id);
+    void restorePerson(Long id);
 }

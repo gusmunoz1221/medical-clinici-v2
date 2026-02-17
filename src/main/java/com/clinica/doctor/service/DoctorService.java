@@ -7,23 +7,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface DoctorService {
-    Page<DoctorPublicResponse> getAllPublic(Pageable pageable);
+    Page<DoctorPublicResponse> getAllPublicDoctors(Pageable pageable);
 
-    DoctorPublicResponse getByIdPublic(Long id);
+    DoctorPublicResponse getByIdPublicDoctor(Long id);
 
-    Page<DoctorAdminResponse> getAllAdmin(Pageable pageable);
+    Page<DoctorAdminResponse> getAllAdminDoctors(Pageable pageable);
 
-    DoctorAdminResponse getByIdAdmin(Long id);
+    DoctorAdminResponse getByIdAdminDoctor(Long id);
 
-    Page<DoctorAdminResponse> searchAdmin(String filter, Pageable pageable);
+    Page<DoctorAdminResponse> searchAdminDoctors(String filter, Pageable pageable);
 
-    DoctorAdminResponse create(DoctorRequest request);
+    DoctorAdminResponse createDoctor(DoctorRequest request);
 
-    DoctorAdminResponse update(Long id, DoctorRequest request);
+    DoctorAdminResponse updateDoctor(Long id, DoctorRequest request);
 
-    void delete(Long id);
+    Page<DoctorAdminResponse> getAllDeletedDoctor(Pageable pageable);
 
-    Page<DoctorAdminResponse> getAllDeleted(Pageable pageable);
+    void deleteDoctor(Long id);
+    void restoreDoctor(Long id);
 
-    void restore(Long id);
 }

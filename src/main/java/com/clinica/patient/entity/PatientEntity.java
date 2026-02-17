@@ -27,7 +27,7 @@ public class PatientEntity {
     @Column(columnDefinition = "TEXT")
     private String allergies;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false, unique = true)
-    private PersonEntity personEntity;
+    private PersonEntity person;
 }

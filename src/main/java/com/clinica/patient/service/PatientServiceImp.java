@@ -24,7 +24,7 @@ public class PatientServiceImp implements PatientService {
     @Override
     @Transactional
     public PatientDetailResponse createPatient(PatientRequest request) {
-        if (patientRepository.existsByPersonDocumentNumber(request.dni()))
+        if (patientRepository.existsByPersonDni(request.dni()))
             throw new IllegalArgumentException("El DNI " + request.dni() + " ya se encuentra registrado.");
 
         if (patientRepository.existsByPersonEmail(request.email()))
@@ -51,9 +51,9 @@ public class PatientServiceImp implements PatientService {
         PatientEntity patient = patientRepository.findByIdWithPerson(id)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente no encontrado con ID: " + id));
 
-        PersonEntity person = patient.getPersonEntity();
+        PersonEntity person = patient.getPerson();
 
-        if (!person.getDni().equals(request.dni()) && patientRepository.existsByPersonDocumentNumber(request.dni()))
+        if (!person.getDni().equals(request.dni()) && patientRepository.existsByPersonDni(request.dni()))
             throw new IllegalArgumentException("El DNI " + request.dni() + " ya pertenece a otro paciente.");
 
         if (!person.getEmail().equals(request.email()) && patientRepository.existsByPersonEmail(request.email()))
@@ -107,7 +107,7 @@ public class PatientServiceImp implements PatientService {
 
     @Override
     public PatientDetailResponse getPatientByDni(String dni) {
-        return patientRepository.findByPersonDocumentNumber(dni)
+        return patientRepository.findByPersonDni(dni)
                 .map(patientMapper::toDetailResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Paciente con DNI " + dni + " no encontrado."));
     }

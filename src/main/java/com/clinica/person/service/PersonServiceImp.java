@@ -22,8 +22,8 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     @Transactional
-    public PersonDtoResponse create(PersonDtoRequest request) {
-        if (personRepository.existsByDocumentNumber(request.dni()))
+    public PersonDtoResponse createPerson(PersonDtoRequest request) {
+        if (personRepository.existsByDni(request.dni()))
             throw new IllegalArgumentException("El DNI " + request.dni() + " ya está registrado.");
 
         if (personRepository.existsByEmail(request.email()))
@@ -35,7 +35,7 @@ public class PersonServiceImp implements PersonService {
     }
 
     @Override
-    public PersonDtoResponse getById(Long id) {
+    public PersonDtoResponse getPersonById(Long id) {
         PersonEntity entity = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Persona no encontrada con ID: " + id));
         return personMapper.toResponse(entity);
@@ -43,11 +43,11 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     @Transactional
-    public PersonDtoResponse update(Long id, PersonDtoRequest request) {
+    public PersonDtoResponse updatePerson(Long id, PersonDtoRequest request) {
         PersonEntity entity = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Persona no encontrada con ID: " + id));
 
-        if (!entity.getDni().equals(request.dni()) && personRepository.existsByDocumentNumber(request.dni()))
+        if (!entity.getDni().equals(request.dni()) && personRepository.existsByDni(request.dni()))
             throw new IllegalArgumentException("El DNI " + request.dni() + " ya pertenece a otra persona.");
 
         if (!entity.getEmail().equals(request.email()) && personRepository.existsByEmail(request.email()))
@@ -61,7 +61,7 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void deletePerson(Long id) {
         if (!personRepository.existsById(id))
             throw new EntityNotFoundException("No se puede eliminar. ID " + id + " no encontrado.");
 
@@ -75,20 +75,20 @@ public class PersonServiceImp implements PersonService {
     }
 
     @Override
-    public Page<PersonDtoResponse> search(String filter, Pageable pageable) {
+    public Page<PersonDtoResponse> searchPerson(String filter, Pageable pageable) {
         return personRepository.search(filter, pageable)
                 .map(personMapper::toResponse);
     }
 
     @Override
-    public PersonDtoResponse getByDni(String dni) {
-        return personRepository.findByDocumentNumber(dni)
+    public PersonDtoResponse getPersonByDni(String dni) {
+        return personRepository.findByDni(dni)
                 .map(personMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No existe persona con DNI: " + dni));
     }
 
     @Override
-    public PersonDtoResponse getByEmail(String email) {
+    public PersonDtoResponse getPersonByEmail(String email) {
         return personRepository.findByEmail(email)
                 .map(personMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No existe persona con Email: " + email));
@@ -102,7 +102,7 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     @Transactional
-    public void restore(Long id) {
+    public void restorePerson(Long id) {
         personRepository.restorePerson(id);
     }
 }

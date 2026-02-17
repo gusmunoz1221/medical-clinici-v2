@@ -8,21 +8,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<DoctorEntity, Long> {
 
     @EntityGraph(attributePaths = {"person"})
-    Optional<DoctorEntity> findByPersonDocumentNumber(String documentNumber);
+    Optional<DoctorEntity> findByPersonDni(String dni);
 
     @EntityGraph(attributePaths = {"person"})
     Optional<DoctorEntity> findByPersonEmail(String email);
 
-    boolean existsByPerson_DocumentNumber(String documentNumber);
-    boolean existsByPerson_Email(String email);
+    boolean existsByPersonDni(String dni);
+    boolean existsByPersonEmail(String email);
 
-    //  BUSQUEDAS PROPIAS PROPIAS
+    //  BUSQUEDAS PROPIAS
 
     Page<DoctorEntity> findBySpecialtyContainingIgnoreCase(String specialty, Pageable pageable);
 

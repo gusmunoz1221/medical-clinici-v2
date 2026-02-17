@@ -1,6 +1,6 @@
 package com.clinica.exception;
 
-public class BadCredentialsException extends Throwable {
+public class BadCredentialsException extends RuntimeException {
     public BadCredentialsException(String message) {
         super(message);
     }
